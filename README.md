@@ -12,3 +12,8 @@ to make a distribution
 ```
 ./gradlew desktop:dist
 ```
+
+to run the release just download then do
+```
+java -jar desktop-1.0.jar
+```
