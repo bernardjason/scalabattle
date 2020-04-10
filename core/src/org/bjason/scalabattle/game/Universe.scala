@@ -18,9 +18,9 @@ object Universe {
     val pixmap = new Pixmap(w, h, Pixmap.Format.RGBA8888)
     pixmap.setColor(Color.LIGHT_GRAY)
 
-    for (xx <- 0 to w by w / 20) {
-      for (yy <- 0 to h by h / 20) {
-        if (Math.random() * 1000 % 20 > 18) {
+    for (xx <- 0 to w by w / 8) {
+      for (yy <- 0 to h by h / 8) {
+        if (Math.random() * 1000 % 20 > 19) {
           pixmap.fillRectangle(xx, yy, 2, 2)
         }
       }

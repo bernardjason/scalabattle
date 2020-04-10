@@ -1,5 +1,7 @@
 # ScalaBattle
 
+![screen](Screenshot.jpg)
+
 a libgdx game, like a big asteroids. Did something similar in python and tk
 
 to build
