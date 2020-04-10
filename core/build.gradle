@@ -1,0 +1,23 @@
+apply plugin: "java"
+apply plugin: "scala"
+
+dependencies{
+
+    compile "org.scala-lang:scala-library:2.11.6"
+    compile group: 'com.github.scala-incubator.io', name: 'scala-io-file_2.11', version: '0.4.3-1'
+
+}
+
+sourceCompatibility = 1.6
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+sourceSets.main.java.srcDirs = [ "src/" ]
+sourceSets.main.scala.srcDirs = [ "src/" ]
+
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.additionalParameters = ["-nowarn"]
+}
+
+eclipse.project {
+    name = appName + "-core"
+}
