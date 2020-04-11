@@ -10,9 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 
 class Player(startx: Int, starty: Int) extends Actor with MyCollision with CareAboutKeyboard {
 
-  val DEAD_TIME = 500
+  val DEAD_TIME = 501
   val size = 64
   val speed = 10
+  val ROTATE = 50
   var timeBetweenFire = 0f
   val pixmap = new Pixmap(size, size, Pixmap.Format.RGBA8888)
   pixmap.setColor(Color.CYAN)
@@ -53,11 +54,11 @@ class Player(startx: Int, starty: Int) extends Actor with MyCollision with CareA
   }
 
   override def left(): Unit = {
-    doRotate(100 * Gdx.graphics.getDeltaTime)
+    doRotate(ROTATE * Gdx.graphics.getDeltaTime)
   }
 
   override def right(): Unit = {
-    doRotate(-100 * Gdx.graphics.getDeltaTime)
+    doRotate(-ROTATE * Gdx.graphics.getDeltaTime)
   }
 
   private def doRotate(by: Float) = {
@@ -71,10 +72,11 @@ class Player(startx: Int, starty: Int) extends Actor with MyCollision with CareA
   override def fire(): Unit = {
     if (deadAnimate <= DEAD_TIME / 2) {
       if (timeBetweenFire <= 0) {
-        val t = Torpedo(getX.toInt, getY.toInt, dir, this.getRotation)
+        val t = Torpedo(hashCode(),getX.toInt, getY.toInt, dir, this.getRotation)
         this.getStage().addActor(t)
         GameScreen.torpedos += t
         timeBetweenFire = 10
+        Sound.playFire
       }
     }
   }
@@ -151,7 +153,7 @@ class Player(startx: Int, starty: Int) extends Actor with MyCollision with CareA
     }
   }
 
-  def dispose(): Unit = {
+  override def dispose(): Unit = {
     texture.dispose()
   }
 

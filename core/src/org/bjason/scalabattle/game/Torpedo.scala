@@ -13,34 +13,28 @@ object TextureCache {
     size, size,
     size, -size
   )
-  lazy val texture = makeTexture((size + 1) * 2, (size + 1) * 2, size, size)
+  lazy val textures = List(
+    makeTexture(Color.RED,(size + 1) * 2, (size + 1) * 2, size, size),
+    makeTexture(Color.GREEN,(size + 1) * 2, (size + 1) * 2, size, size)
+  )
 
-  def makeTexture(w: Int, h: Int, ax: Int, ay: Int): Texture = {
+  val player=0
+  val alien=1
 
+  def makeTexture(colour:Color,w: Int, h: Int, ax: Int, ay: Int): Texture = {
     val pixmap = new Pixmap(w, h, Pixmap.Format.RGBA8888)
-    pixmap.setColor(Color.RED)
+    pixmap.setColor(colour)
+    pixmap.drawRectangle(0,0,w-1,h-1)
 
-    var p = Array(points(0), points(1))
-    var dontSkip = false
-    for (n <- points.grouped(2)) {
-      if (dontSkip) {
-        pixmap.drawLine(ax + p(0).toInt, ay + p(1).toInt, ax + n(0).toInt, ay + n(1).toInt)
-      }
-      dontSkip = true
-      p = n
-    }
-    pixmap.drawLine(ax + p(0).toInt, ay + p(1).toInt, ax + points(0).toInt, ay + points(1).toInt)
     val texture = new Texture(pixmap)
     pixmap.dispose()
     texture
   }
 }
-case class Torpedo(startx: Int, starty: Int, startDir: Vector2, degrees: Float) extends Actor with MyCollision {
+case class Torpedo(me:Int,startx: Int, starty: Int, startDir: Vector2, degrees: Float,speed:Float=12,var timeToLive:Float=40,whichTexture:Int = TextureCache.player) extends Actor with MyCollision {
 
   val dir = startDir.cpy
-  var timeToLive = 40f
-  val speed = 12
-  val texture = TextureCache.texture
+  val texture = TextureCache.textures(whichTexture)
   val points = TextureCache.points
 
   setPosition(startx, starty)
@@ -58,11 +52,5 @@ case class Torpedo(startx: Int, starty: Int, startDir: Vector2, degrees: Float) 
       this.getParent.removeActor(this)
       dispose()
     }
-  }
-
-
-
-  def dispose(): Unit = {
-    //texture.dispose()
   }
 }

@@ -15,4 +15,6 @@ trait MyCollision {
   override def equals(obj: Any): Boolean = {
     hash == obj.hashCode()
   }
+
+  def dispose() = {}
 }

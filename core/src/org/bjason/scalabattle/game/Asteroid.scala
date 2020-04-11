@@ -63,11 +63,10 @@ object AsteroidCache {
 
 case class Asteroid(startx: Int, starty: Int, size: Float = 2) extends Actor with MyCollision {
 
-  var dead = false
   val dir = new Vector2(Math.random().toFloat / 2, Math.random().toFloat / 2)
   val dirX = (Math.random() * 1000).toInt % 3 - 1
   val dirY = (Math.random() * 1000).toInt % 3 - 1
-  dir.scl(dirX * 8, dirY * 8)
+  dir.scl(dirX * 4, dirY * 4)
 
   val texturePoints = AsteroidCache.getTexture(size)
   override val points = texturePoints.points
@@ -88,7 +87,4 @@ case class Asteroid(startx: Int, starty: Int, size: Float = 2) extends Actor wit
   }
 
 
-  def dispose() = {
-    //texture.dispose()
-  }
 }
